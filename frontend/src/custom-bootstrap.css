@@ -1,0 +1,32 @@
+/* Custom Bootstrap overrides */
+body {
+    background-color: #f8f9fa; /* Light background for better contrast */
+}
+
+.container {
+    max-width: 800px; /* Limit container width for better readability */
+}
+
+.card {
+    border-radius: 10px; /* Rounded corners for cards */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.btn-custom {
+    background-color: #007bff; /* Custom button color */
+    color: white; /* Button text color */
+    border: none; /* Remove border */
+}
+
+.btn-custom:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+h2, h1 {
+    font-family: 'Arial', sans-serif; /* Consistent font for headings */
+    color: #343a40; /* Dark text color for headings */
+}
+
+.alert {
+    border-radius: 5px; /* Rounded corners for alerts */
+}
