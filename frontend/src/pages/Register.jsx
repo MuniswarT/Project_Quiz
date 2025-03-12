@@ -1,90 +1,89 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { register } from "../api/auth"; 
 
 const Register = () => {
-    const [formData, setFormData] = useState({
-        username: "",
-        email: "",
-        password: "",
-    });
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
+        setLoading(true);
 
-        if (!formData.username || !formData.email || !formData.password) {
+        if (!name || !email || !password) {
             setError("All fields are required!");
+            setLoading(false);
             return;
         }
 
         try {
-            console.log("User Registered:", formData);
+            const response = await register({ name, email, password });
+
+            console.log("Registration successful:", response);
             alert("Registration Successful!");
             navigate("/home");
         } catch (err) {
-            setError("Registration failed. Please try again.");
+            setError(err.response?.data?.message || "Registration failed. Please try again.");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="register-container">
-            <div className="register-card">
-                <h1>Register</h1>
-                {error && <div className="error-message">{error}</div>}
-                <form className="register-form" onSubmit={handleSubmit}>
+        <div className="container">
+            <div className="card">
+                <h2>Register</h2>
+                {error && <div className="error">{error}</div>}
+                <form onSubmit={handleSubmit}>
                     <label>Username</label>
-                    <input type="text" name="username" placeholder="Enter your username" value={formData.username} onChange={handleChange} required />
+                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
                     
                     <label>Email</label>
-                    <input type="email" name="email" placeholder="Enter your email" value={formData.email} onChange={handleChange} required />
+                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                     
                     <label>Password</label>
-                    <input type="password" name="password" placeholder="Enter your password" value={formData.password} onChange={handleChange} required />
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                     
-                    <button type="submit" className="register-button">Register</button>
+                    <button type="submit" className="register-button" disabled={loading}>
+                        {loading ? "Registering..." : "Register"}
+                    </button>
                 </form>
-                <p className="login-link">Already have an account? <span onClick={() => navigate("/login")} className="login-text">Sign in</span></p>
+                <p className="login-link">
+                    Already have an account? <span onClick={() => navigate("/login")} className="login-text">Sign in</span>
+                </p>
             </div>
 
             <style>
                 {`
-                    * {
-                        margin: 0;
-                        padding: 0;
-                        box-sizing: border-box;
-                        font-family: 'Poppins', sans-serif;
-                    }
-                    .register-container {
+                    .container {
                         display: flex;
                         align-items: center;
                         justify-content: center;
                         height: 100vh;
-                        background: linear-gradient(135deg, #667eea, #764ba2);
+                        background: linear-gradient(to right, #ff9966, #ff5e62);
                     }
-                    .register-card {
+                    .card {
                         background: white;
-                        padding: 50px;
+                        padding: 40px;
                         border-radius: 12px;
-                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
                         width: 400px;
                         text-align: center;
                     }
-                    h1 {
+                    h2 {
                         margin-bottom: 20px;
                         color: #333;
                         font-size: 2rem;
-                        font-weight: bold;
                     }
                     label {
                         display: block;
                         text-align: left;
-                        font-weight: 600;
+                        font-weight: bold;
                         margin: 10px 0 5px;
                         color: #555;
                     }
@@ -95,15 +94,15 @@ const Register = () => {
                         border: 2px solid #ddd;
                         border-radius: 8px;
                         font-size: 1rem;
-                        transition: all 0.3s ease;
+                        transition: border 0.3s ease;
                     }
                     input:focus {
-                        border-color: #667eea;
+                        border-color: #ff5e62;
                         outline: none;
                     }
                     .register-button {
                         width: 100%;
-                        background: #667eea;
+                        background: #ff5e62;
                         color: white;
                         padding: 15px;
                         border: none;
@@ -113,9 +112,9 @@ const Register = () => {
                         transition: background 0.3s ease;
                     }
                     .register-button:hover {
-                        background: #5563c1;
+                        background: #ff3b3b;
                     }
-                    .error-message {
+                    .error {
                         background: #ff4d4d;
                         color: white;
                         padding: 10px;

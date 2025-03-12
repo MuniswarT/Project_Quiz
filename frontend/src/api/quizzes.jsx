@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8000/api/quizzes";
+const API_URL = "https://project-quiz-dw8k.onrender.com/api/quizzes";
 
 export const fetchQuizzes = async (category, limit) => {
     try {

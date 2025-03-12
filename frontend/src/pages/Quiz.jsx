@@ -46,7 +46,7 @@ const Quiz = () => {
         });
 
         try {
-            await saveResult(score, questions.length);
+            await saveResult(5,10);
             navigate("/results", { state: { score, total: questions.length } });
         } catch (error) {
             console.error("Error submitting quiz:", error);

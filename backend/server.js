@@ -12,8 +12,8 @@
     app.use(cors());
     app.use(express.json());// it iss used to put or post in json format
 
-    // Routes
-    app.use('/api/auth', require('./routes/authRoutes'));
+        // Routes
+        app.use('/api/auth', require('./routes/authRoutes'));
     app.use('/api/quizzes', require('./routes/quizRoutes'));
     app.use('/api/results', require('./routes/resultRoutes'));
     app.use((req, res, next) => {

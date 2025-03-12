@@ -42,12 +42,17 @@ const Dashboard = () => {
                         </thead>
                         <tbody>
                             {leaderboard.length === 0 ? (
-                                <tr><td colSpan="4" className="no-scores">No scores yet!</td></tr>
+                                <tr>
+                                    <td colSpan="4" className="no-scores">
+                                        No scores yet!
+                                    </td>
+                                </tr>
                             ) : (
                                 leaderboard.map((entry, index) => (
                                     <tr key={index}>
                                         <td>{index + 1}</td>
-                                        <td>{entry.user.name}</td>
+                                        {/* ✅ Fix: Use entry.user?.name */}
+                                        <td>{entry.user?.name || "Unknown"}</td>
                                         <td>{entry.score}</td>
                                         <td>{entry.totalQuestions}</td>
                                     </tr>
@@ -108,6 +113,9 @@ const Dashboard = () => {
                     padding: 15px;
                     text-align: center;
                     border-bottom: 1px solid #ddd;
+                }
+                .leaderboard-table tbody tr {
+                    color: #333;
                 }
                 .leaderboard-table tr:hover {
                     background: rgba(0, 0, 0, 0.1);
